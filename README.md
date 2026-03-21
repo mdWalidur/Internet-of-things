@@ -34,7 +34,7 @@ Solutions to the Communication exercises:
 
 ---
 transmit data
-## 📌 Naming Rules
+## 📌 Folder names
 
 To make the structure easy to navigate:
 
