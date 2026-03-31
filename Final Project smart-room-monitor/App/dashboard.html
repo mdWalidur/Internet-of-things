@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Smart Room Monitor</title>
+<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body{font-family:Arial,sans-serif;margin:40px;background:#f0f2f5;}
+h1{color:#333;text-align:center;}
+#status{padding:10px;border-radius:5px;font-weight:bold;margin:20px 0;}
+#chart{background:white;border-radius:10px;padding:20px;margin:20px 0;box-shadow:0 4px 6px rgba(0,0,0,0.1);}
+table{width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 4px 6px rgba(0,0,0,0.1);}
+th{background:#4a90e2;color:white;padding:12px;}
+td{padding:12px;border-bottom:1px solid #eee;}
+tr:hover{background:#f8f9fa;}
+</style>
+</head>
+<body>
+<h1>🌡️ Smart Room Monitor</h1>
+<div id="status" style="color:red;background:#ffebee;">🔴 Offline</div>
+<div style="text-align:center;">
+<canvas id="chart" width="800" height="400"></canvas>
+</div>
+<table id="data">
+<tr><th>Time</th><th>Temp (°C)</th><th>Humidity (%)</th><th>Uptime (s)</th></tr>
+</table>
+
+<script>
+console.log('Dashboard loading...');
+const clientId = 'web_' + Math.random().toString(16).substr(2, 8);
+const client = mqtt.connect('wss://broker.hivemq.com:8000/mqtt', { clientId });
+
+const ctx = document.getElementById('chart').getContext('2d');
+const chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: 'Temperature (°C)',
+        borderColor: '#ff6384',
+        backgroundColor: 'rgba(255,99,132,0.2)',
+        fill: true,
+        data: []
+      },
+      {
+        label: 'Humidity (%)',
+        borderColor: '#36a2eb',
+        backgroundColor: 'rgba(54,162,235,0.2)',
+        fill: true,
+        data: []
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    interaction: {
+      mode: 'index',
+      intersect: false
+    },
+    plugins: {
+      legend: {
+        position: 'top'
+      },
+      title: {
+        display: true,
+        text: 'Live Room Temperature and Humidity'
+      }
+    },
+    scales: {
+      x: {
+        title: { display: true, text: 'Time' }
+      },
+      y: {
+        title: { display: true, text: 'Value' },
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+const statusEl = document.getElementById('status');
+const dataTable = document.getElementById('data');
+const maxPoints = 20;
+
+function updateStatus(online) {
+  statusEl.textContent = online ? '🟢 Online' : '🔴 Offline';
+  statusEl.style.color = online ? '#155724' : '#721c24';
+  statusEl.style.background = online ? '#d4edda' : '#ffebee';
+}
+
+function addDataPoint(label, temperature, humidity) {
+  if (chart.data.labels.length >= maxPoints) {
+    chart.data.labels.shift();
+    chart.data.datasets[0].data.shift();
+    chart.data.datasets[1].data.shift();
+  }
+  chart.data.labels.push(label);
+  chart.data.datasets[0].data.push(temperature);
+  chart.data.datasets[1].data.push(humidity);
+  chart.update();
+}
+
+function addTableRow(time, temperature, humidity, uptime) {
+  const row = document.createElement('tr');
+  row.innerHTML = `<td>${time}</td><td>${temperature}</td><td>${humidity}</td><td>${uptime}</td>`;
+  dataTable.appendChild(row);
+  if (dataTable.rows.length > maxPoints + 1) {
+    dataTable.deleteRow(1);
+  }
+}
+
+function formatTime(date) {
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+
+let latestTemp = null;
+let latestHumidity = null;
+let latestUptime = null;
+
+client.on('connect', () => {
+  console.log('Connected to MQTT broker');
+  updateStatus(true);
+  client.subscribe('room/temperature');
+  client.subscribe('room/humidity');
+  client.subscribe('room/uptime');
+});
+
+client.on('reconnect', () => {
+  console.log('Reconnecting to MQTT broker...');
+  updateStatus(false);
+});
+
+client.on('error', (error) => {
+  console.error('MQTT error:', error);
+  updateStatus(false);
+});
+
+client.on('offline', () => {
+  console.log('MQTT client offline');
+  updateStatus(false);
+});
+
+client.on('message', (topic, message) => {
+  const payload = message.toString();
+  const now = formatTime(new Date());
+  let updated = false;
+
+  if (topic === 'room/temperature') {
+    const value = parseFloat(payload);
+    if (!Number.isNaN(value)) {
+      latestTemp = value.toFixed(1);
+      updated = true;
+    }
+  }
+
+  if (topic === 'room/humidity') {
+    const value = parseFloat(payload);
+    if (!Number.isNaN(value)) {
+      latestHumidity = value.toFixed(1);
+      updated = true;
+    }
+  }
+
+  if (topic === 'room/uptime') {
+    latestUptime = parseInt(payload, 10);
+    if (!Number.isNaN(latestUptime)) {
+      updated = true;
+    }
+  }
+
+  if (updated && latestTemp !== null && latestHumidity !== null) {
+    addDataPoint(now, latestTemp, latestHumidity);
+    addTableRow(now, latestTemp, latestHumidity, latestUptime !== null ? latestUptime : '—');
+  }
+});
+
+window.addEventListener('beforeunload', () => {
+  if (client.connected) {
+    client.end();
+  }
+});
+</script>
+</body>
+</html>

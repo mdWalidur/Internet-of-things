@@ -1,0 +1,23 @@
+[wokwi]
+version = 1
+firmware = "./esp32_sender.ino"
+elf = "./esp32_sender.ino.elf"
+
+[[wokwi.parts]]
+type = "wokwi-esp32-devkit-v1"
+id = "esp"
+top = 0
+left = 0
+
+[[wokwi.parts]]
+type = "wokwi-dht22"
+id = "dht1"
+top = -48
+left = 180
+
+[[wokwi.connections]]
+wires = [
+  { from = "esp.gpio15", to = "dht1.sd", color = "green" },
+  { from = "esp.3v3", to = "dht1.vcc", color = "red" },
+  { from = "esp.gnd", to = "dht1.gnd", color = "black" }
+]

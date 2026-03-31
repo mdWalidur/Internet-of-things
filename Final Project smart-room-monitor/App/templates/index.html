@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Smart Room Monitor</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 30px; }
+h1 { text-align: center; color: #333; margin-bottom: 20px; }
+#status { text-align: center; padding: 12px; border-radius: 8px;
+  font-weight: bold; font-size: 18px; margin-bottom: 20px;
+  background: #ffebee; color: red; }
+.card { background: white; border-radius: 12px; padding: 20px;
+  margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+table { width: 100%; border-collapse: collapse; }
+th { background: #4a90e2; color: white; padding: 12px; text-align: center; }
+td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; }
+tr:hover { background: #f8f9fa; }
+.temp { color: #e74c3c; font-weight: bold; font-size: 16px; }
+.hum  { color: #3498db; font-weight: bold; font-size: 16px; }
+</style>
+</head>
+<body>
+<h1>🌡️ Smart Room Monitor</h1>
+<div id="status">🔴 Waiting for data...</div>
+
+<div class="card">
+  <canvas id="chart" height="100"></canvas>
+</div>
+
+<div class="card">
+  <table id="table">
+    <tr><th>Time</th><th>Temperature</th><th>Humidity</th><th>Uptime</th></tr>
+  </table>
+</div>
+
+<script>
+const socket = io();
+const chart = new Chart(document.getElementById('chart'), {
+  type: 'line',
+  data: { labels: [], datasets: [
+    { label: 'Temp (°C)',    borderColor: '#e74c3c',
+      backgroundColor: 'rgba(231,76,60,0.1)',  data: [], fill: true, tension: 0.4 },
+    { label: 'Humidity (%)', borderColor: '#3498db',
+      backgroundColor: 'rgba(52,152,219,0.1)', data: [], fill: true, tension: 0.4 }
+  ]},
+  options: { responsive: true, scales: { y: { beginAtZero: false } } }
+});
+
+let readings = [];
+
+socket.on('sensor_data', (data) => {
+  // Status green
+  const s = document.getElementById('status');
+  s.innerHTML = '🟢 LIVE — Receiving data every 2s';
+  s.style.background = '#d4edda';
+  s.style.color = 'green';
+
+  const time = new Date().toLocaleTimeString();
+  readings.unshift({ time, temp: data.temp, hum: data.humidity, uptime: data.uptime });
+  if (readings.length > 20) readings.pop();
+
+  // Update table
+  document.getElementById('table').innerHTML =
+    '<tr><th>Time</th><th>Temperature</th><th>Humidity</th><th>Uptime</th></tr>' +
+    readings.map(r =>
+      `<tr>
+        <td>${r.time}</td>
+        <td class="temp">${r.temp}°C</td>
+        <td class="hum">${r.hum}%</td>
+        <td>${r.uptime}s</td>
+      </tr>`
+    ).join('');
+
+  // Update chart
+  chart.data.labels = readings.map(r => r.time);
+  chart.data.datasets[0].data = readings.map(r => r.temp);
+  chart.data.datasets[1].data = readings.map(r => r.hum);
+  chart.update();
+});
+</script>
+</body>
+</html>
