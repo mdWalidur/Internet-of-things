@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "author": "Walidur Rahman",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 0, "left": 0 },
+    { "type": "wokwi-dht22", "id": "dht", "top": 120, "left": 40 },
+    { "type": "wokwi-led", "id": "led", "top": 120, "left": 200, "attrs": { "color": "red" } }
+  ],
+  "connections": [
+    [ "dht:VCC", "uno:5V", "red" ],
+    [ "dht:GND", "uno:GND.1", "black" ],
+    [ "dht:DATA", "uno:2", "green" ],
+
+    [ "led:A", "uno:13", "yellow" ],
+    [ "led:C", "uno:GND.2", "black" ]
+  ]
+}
