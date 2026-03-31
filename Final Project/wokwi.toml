@@ -1,4 +1,0 @@
-[wokwi]
-version = 1
-firmware = "room_monitor.ino"
-diagram = "diagram.json"
