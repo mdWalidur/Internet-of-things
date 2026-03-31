@@ -1,6 +1,6 @@
-# Internet of Things – Exercise Solutions
+# Internet of Things 
 
-This repository contains my solutions for all course exercises in the Internet of Things module.  
+This repository contains my solutions for course exercises and Final project in the Internet of Things.  
 All **Basic**, **Advanced**, and **Communication** tasks are stored in a single repository, following the course requirements.
 
 ---
