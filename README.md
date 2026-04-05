@@ -9,7 +9,7 @@ All **Basic**, **Advanced**, and **Communication** tasks are stored in a single 
 
 ### **1_Basics/**
 Solutions to the Basic exercises:
-- `1_1_HelloWorld.md`
+- `1_1_HelloWorld.md` [text](https://wokwi.com/projects/460487496102619137)
 - `1_2_Diode.md`
 - `1_3_DiodeFade.md`
 - `1_4_Button.md`
