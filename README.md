@@ -174,7 +174,7 @@ Implement IoT data transmission and integration.
 
 ```bash
 # 1️⃣ Open the hardware project
-→ https://wokwi.com/projects/460027800656399361
+#    https://wokwi.com/projects/460027800656399361
 
 # 2️⃣ Install dependencies
 pip install -r requirements.txt
@@ -183,8 +183,10 @@ pip install -r requirements.txt
 python app.py
 
 # 4️⃣ View dashboard
-→ http://localhost:5000
+#    http://localhost:5000
 ```
+
+[Open the final project in Wokwi](https://wokwi.com/projects/460027800656399361)
 
 #### 📁 Project Structure
 ```
