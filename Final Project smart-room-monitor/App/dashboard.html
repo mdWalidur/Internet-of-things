@@ -1,185 +1,185 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Smart Room Monitor</title>
-<script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-body{font-family:Arial,sans-serif;margin:40px;background:#f0f2f5;}
-h1{color:#333;text-align:center;}
-#status{padding:10px;border-radius:5px;font-weight:bold;margin:20px 0;}
-#chart{background:white;border-radius:10px;padding:20px;margin:20px 0;box-shadow:0 4px 6px rgba(0,0,0,0.1);}
-table{width:100%;border-collapse:collapse;background:white;border-radius:10px;overflow:hidden;box-shadow:0 4px 6px rgba(0,0,0,0.1);}
-th{background:#4a90e2;color:white;padding:12px;}
-td{padding:12px;border-bottom:1px solid #eee;}
-tr:hover{background:#f8f9fa;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pretext-style Starter Demo</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: #f5f6f8;
+      --surface: rgba(255,255,255,0.92);
+      --surface-strong: rgba(255,255,255,0.98);
+      --text: #11131c;
+      --muted: #5f6a7b;
+      --accent: #7451ff;
+      --accent-soft: rgba(116,81,255,0.12);
+      --border: rgba(17,24,39,0.08);
+      --shadow: 0 28px 80px rgba(17,24,39,0.08);
+      --radius: 28px;
+      --radius-sm: 18px;
+      --code-bg: rgba(17,24,39,0.05);
+    }
+    [data-theme='dark'] {
+      --bg: #0f121d;
+      --surface: rgba(17,20,32,0.88);
+      --surface-strong: rgba(17,20,32,0.96);
+      --text: #f7f8ff;
+      --muted: #9aa3b3;
+      --accent: #9f8cff;
+      --accent-soft: rgba(159,140,255,0.16);
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 28px 80px rgba(0,0,0,0.35);
+      --code-bg: rgba(255,255,255,0.04);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: radial-gradient(circle at top left, rgba(116,81,255,0.12), transparent 32%), linear-gradient(180deg, var(--bg), var(--bg)); color: var(--text); font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+    body { line-height: 1.7; }
+    a { color: inherit; text-decoration: none; }
+    img, svg { max-width: 100%; display: block; }
+    button { font: inherit; }
+    .page { width: min(1120px, calc(100% - 2rem)); margin: 0 auto; padding: 3.5rem 0 4rem; }
+    header { display: grid; gap: 2rem; padding: 2.5rem; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); backdrop-filter: blur(18px); }
+    .eyebrow { display: inline-flex; align-items: center; gap: .75rem; color: var(--accent); font-size: .85rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
+    .hero-title { margin: .4rem 0 1rem; font-size: clamp(2.8rem, 4.4vw, 4.8rem); line-height: 0.95; max-width: 14ch; }
+    .hero-copy { max-width: 68ch; font-size: 1.05rem; color: var(--muted); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.8rem; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 3rem; padding: 0 1.55rem; border-radius: 999px; font-weight: 600; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .button:hover { transform: translateY(-1px); }
+    .button.primary { background: var(--accent); color: white; box-shadow: 0 18px 35px rgba(116,81,255,0.24); }
+    .button.secondary { color: var(--text); background: transparent; border: 1px solid var(--border); }
+    .meta-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .meta-copy { color: var(--muted); font-size: .95rem; }
+    .theme-toggle { border: none; cursor: pointer; padding: .95rem 1.2rem; border-radius: 999px; background: var(--surface-strong); color: var(--text); box-shadow: 0 16px 32px rgba(17,24,39,0.06); }
+    main { margin-top: 3rem; display: grid; gap: 2.2rem; }
+    section { display: grid; gap: 1.5rem; }
+    .section-heading { display: flex; align-items: center; gap: .85rem; }
+    .section-title { margin: 0; font-size: 1.3rem; letter-spacing: -.02em; }
+    .section-divider { flex: 1; height: 1px; border: none; background: var(--border); }
+    .grid { display: grid; gap: 1.75rem; }
+    .cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card { padding: 1.75rem; border-radius: var(--radius-sm); background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); }
+    .card h3 { margin: 0 0 .8rem; font-size: 1.1rem; }
+    .card p { margin: 0; color: var(--muted); }
+    .feature-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+    .feature-list li { display: grid; gap: .5rem; }
+    .feature-list strong { color: var(--text); display: block; }
+    .code-card { background: var(--code-bg); border-radius: 22px; padding: 1.6rem; border: 1px solid rgba(17,24,39,0.08); }
+    pre { margin: 0; overflow-x: auto; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: .95rem; line-height: 1.7; color: var(--text); }
+    code { display: block; white-space: pre; }
+    footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-top: 2rem; border-top: 1px solid var(--border); color: var(--muted); }
+    .footer-note { max-width: 58%; }
+    .footer-link { color: var(--accent); font-weight: 600; }
+    @media (max-width: 860px) { .cols-2, .cols-3 { grid-template-columns: 1fr; } }
+    @media (max-width: 620px) { .page { padding: 2rem 1rem 3rem; } .hero-title { font-size: 2.6rem; } }
+  </style>
 </head>
-<body>
-<h1>🌡️ Smart Room Monitor</h1>
-<div id="status" style="color:red;background:#ffebee;">🔴 Offline</div>
-<div style="text-align:center;">
-<canvas id="chart" width="800" height="400"></canvas>
-</div>
-<table id="data">
-<tr><th>Time</th><th>Temp (°C)</th><th>Humidity (%)</th><th>Uptime (s)</th></tr>
-</table>
+<body data-theme="light">
+  <div class="page">
+    <header>
+      <span class="eyebrow">Editorial starter</span>
+      <h1 class="hero-title">A calm Pretext-style landing page for editorial content.</h1>
+      <p class="hero-copy">A polished one-page starter with balanced typography, gentle cards, and a light/dark toggle. Use it for writing previews, layout demos, and content-first presentations.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#examples">See demo</a>
+        <a class="button secondary" href="#code-sample">View code</a>
+      </div>
+      <div class="meta-row">
+        <p class="meta-copy">Minimal HTML/CSS with semantic sections, generous whitespace, and softly elevated surfaces for a refined editorial rhythm.</p>
+        <button class="theme-toggle" id="themeToggle">Dark mode</button>
+      </div>
+    </header>
 
-<script>
-console.log('Dashboard loading...');
-const clientId = 'web_' + Math.random().toString(16).substr(2, 8);
-const client = mqtt.connect('wss://broker.hivemq.com:8000/mqtt', { clientId });
+    <main>
+      <section aria-labelledby="features-heading">
+        <div class="section-heading">
+          <span class="section-title">Features</span>
+          <span class="section-divider"></span>
+        </div>
+        <ul class="feature-list">
+          <li><strong>Measured text</strong>— Balanced line lengths and gentle spacing create a calm reading experience.</li>
+          <li><strong>Interactive experiments</strong>— Cards and sections invite exploration without being overwhelming.</li>
+          <li><strong>Editorial presentation</strong>— A pleasant layout for notes, demos, and structured content publishing.</li>
+          <li><strong>Theme-aware system</strong>— Light and dark modes maintain clarity, depth, and tone.</li>
+        </ul>
+      </section>
 
-const ctx = document.getElementById('chart').getContext('2d');
-const chart = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: [],
-    datasets: [
-      {
-        label: 'Temperature (°C)',
-        borderColor: '#ff6384',
-        backgroundColor: 'rgba(255,99,132,0.2)',
-        fill: true,
-        data: []
-      },
-      {
-        label: 'Humidity (%)',
-        borderColor: '#36a2eb',
-        backgroundColor: 'rgba(54,162,235,0.2)',
-        fill: true,
-        data: []
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    interaction: {
-      mode: 'index',
-      intersect: false
-    },
-    plugins: {
-      legend: {
-        position: 'top'
-      },
-      title: {
-        display: true,
-        text: 'Live Room Temperature and Humidity'
-      }
-    },
-    scales: {
-      x: {
-        title: { display: true, text: 'Time' }
-      },
-      y: {
-        title: { display: true, text: 'Value' },
-        beginAtZero: true
-      }
-    }
-  }
-});
+      <section id="examples" aria-labelledby="examples-heading">
+        <div class="section-heading">
+          <span class="section-title">Examples</span>
+          <span class="section-divider"></span>
+        </div>
+        <div class="grid cols-3">
+          <article class="card">
+            <h3>Accordion</h3>
+            <p>Use collapsible sections for modular storytelling, FAQs, and layered editorial blocks.</p>
+          </article>
+          <article class="card">
+            <h3>Markdown Chat</h3>
+            <p>Compose conversational content with a chat-inspired rhythm and structured note-taking interface.</p>
+          </article>
+          <article class="card">
+            <h3>Masonry</h3>
+            <p>Showcase card collections and visual highlights using a flexible grid-driven layout.</p>
+          </article>
+        </div>
+      </section>
 
-const statusEl = document.getElementById('status');
-const dataTable = document.getElementById('data');
-const maxPoints = 20;
+      <section aria-labelledby="build-heading">
+        <div class="section-heading">
+          <span class="section-title">Build flow</span>
+          <span class="section-divider"></span>
+        </div>
+        <div class="grid cols-2">
+          <article class="card">
+            <h3>1. Rename brand</h3>
+            <p>Set the tone with a clear page title, brand voice, and editorial prefix.</p>
+          </article>
+          <article class="card">
+            <h3>2. Add modules</h3>
+            <p>Arrange feature summaries, example cards, and directional sections.</p>
+          </article>
+          <article class="card">
+            <h3>3. Embed live content</h3>
+            <p>Place code previews, sample text, and interaction patterns in softly elevated cards.</p>
+          </article>
+          <article class="card">
+            <h3>4. Publish</h3>
+            <p>Finalize spacing, theme contrast, and the reading flow for a polished launch.</p>
+          </article>
+        </div>
+      </section>
 
-function updateStatus(online) {
-  statusEl.textContent = online ? '🟢 Online' : '🔴 Offline';
-  statusEl.style.color = online ? '#155724' : '#721c24';
-  statusEl.style.background = online ? '#d4edda' : '#ffebee';
-}
+      <section id="code-sample" aria-labelledby="code-heading">
+        <div class="section-heading">
+          <span class="section-title">Code sample</span>
+          <span class="section-divider"></span>
+        </div>
+        <div class="code-card">
+          <pre><code>&lt;article class="card"&gt;
+  &lt;h3&gt;Measured text&lt;/h3&gt;
+  &lt;p&gt;A calm editorial layout with generous margins and soft card surfaces.&lt;/p&gt;
+&lt;/article&gt;
+</code></pre>
+        </div>
+      </section>
+    </main>
 
-function addDataPoint(label, temperature, humidity) {
-  if (chart.data.labels.length >= maxPoints) {
-    chart.data.labels.shift();
-    chart.data.datasets[0].data.shift();
-    chart.data.datasets[1].data.shift();
-  }
-  chart.data.labels.push(label);
-  chart.data.datasets[0].data.push(temperature);
-  chart.data.datasets[1].data.push(humidity);
-  chart.update();
-}
+    <footer>
+      <p class="footer-note"><strong>Pretext-style starter demo</strong> — A static HTML/CSS landing page concept inspired by Pretext library layouts.</p>
+      <a class="footer-link" href="https://pretext.design/demos" target="_blank" rel="noreferrer">Official Pretext demos</a>
+    </footer>
+  </div>
 
-function addTableRow(time, temperature, humidity, uptime) {
-  const row = document.createElement('tr');
-  row.innerHTML = `<td>${time}</td><td>${temperature}</td><td>${humidity}</td><td>${uptime}</td>`;
-  dataTable.appendChild(row);
-  if (dataTable.rows.length > maxPoints + 1) {
-    dataTable.deleteRow(1);
-  }
-}
-
-function formatTime(date) {
-  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-}
-
-let latestTemp = null;
-let latestHumidity = null;
-let latestUptime = null;
-
-client.on('connect', () => {
-  console.log('Connected to MQTT broker');
-  updateStatus(true);
-  client.subscribe('room/temperature');
-  client.subscribe('room/humidity');
-  client.subscribe('room/uptime');
-});
-
-client.on('reconnect', () => {
-  console.log('Reconnecting to MQTT broker...');
-  updateStatus(false);
-});
-
-client.on('error', (error) => {
-  console.error('MQTT error:', error);
-  updateStatus(false);
-});
-
-client.on('offline', () => {
-  console.log('MQTT client offline');
-  updateStatus(false);
-});
-
-client.on('message', (topic, message) => {
-  const payload = message.toString();
-  const now = formatTime(new Date());
-  let updated = false;
-
-  if (topic === 'room/temperature') {
-    const value = parseFloat(payload);
-    if (!Number.isNaN(value)) {
-      latestTemp = value.toFixed(1);
-      updated = true;
-    }
-  }
-
-  if (topic === 'room/humidity') {
-    const value = parseFloat(payload);
-    if (!Number.isNaN(value)) {
-      latestHumidity = value.toFixed(1);
-      updated = true;
-    }
-  }
-
-  if (topic === 'room/uptime') {
-    latestUptime = parseInt(payload, 10);
-    if (!Number.isNaN(latestUptime)) {
-      updated = true;
-    }
-  }
-
-  if (updated && latestTemp !== null && latestHumidity !== null) {
-    addDataPoint(now, latestTemp, latestHumidity);
-    addTableRow(now, latestTemp, latestHumidity, latestUptime !== null ? latestUptime : '—');
-  }
-});
-
-window.addEventListener('beforeunload', () => {
-  if (client.connected) {
-    client.end();
-  }
-});
-</script>
+  <script>
+    const button = document.getElementById('themeToggle');
+    const root = document.documentElement;
+    button.addEventListener('click', () => {
+      const theme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', theme);
+      button.textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
+    });
+  </script>
 </body>
 </html>
