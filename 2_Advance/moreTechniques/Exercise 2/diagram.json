@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "author": "Walidur Rahman",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno",         "id": "uno",    "top": 0,   "left": 0,   "attrs": {} },
+    { "type": "wokwi-slide-potentiometer", "id": "sound1", "top": -80, "left": 200, "attrs": {} }
+  ],
+  "connections": [
+    [ "uno:5V",     "sound1:VCC", "red",   [] ],
+    [ "sound1:SIG", "uno:A0",     "green", [] ],
+    [ "sound1:GND", "uno:GND.1",  "black", [] ]
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "author": "Walidur Rahman",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": -124.2, "left": -173.4, "attrs": {} },
+    { "type": "wokwi-led", "id": "led", "top": -60, "left": 200, "attrs": { "color": "red" } },
+    { "type": "wokwi-resistor", "id": "r1", "top": 20, "left": 185, "attrs": { "value": "220" } }
+  ],
+  "connections": [
+    [ "uno:TX", "$serialMonitor:RX", "", [] ],
+    [ "uno:RX", "$serialMonitor:TX", "", [] ],
+    [ "uno:9", "r1:1", "green", [] ],
+    [ "r1:2", "led:A", "green", [] ],
+    [ "led:C", "uno:GND.2", "black", [] ]
+  ],
+  "dependencies": {}
+}

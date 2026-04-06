@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "author": "Walidur Rahman",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno",   "id": "uno",  "top": 0,    "left": 0,   "attrs": {} },
+    { "type": "wokwi-lcd1602",       "id": "lcd",  "top": -160, "left": 200,
+      "attrs": { "pins": "i2c", "address": "0x27", "background": "blue" } },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": 120,  "left": 200, "attrs": {} },
+    { "type": "wokwi-pushbutton",    "id": "btn1", "top": 120,  "left": 350, "attrs": {} }
+  ],
+  "connections": [
+    [ "uno:A4",    "lcd:SDA",    "blue",   [] ],
+    [ "uno:A5",    "lcd:SCL",    "yellow", [] ],
+    [ "uno:5V",    "lcd:VCC",    "red",    [] ],
+    [ "uno:GND",   "lcd:GND",    "black",  [] ],
+    [ "uno:5V",    "pot1:VCC",   "red",    [] ],
+    [ "pot1:SIG",  "uno:A0",     "green",  [] ],
+    [ "pot1:GND",  "uno:GND.1",  "black",  [] ],
+    [ "uno:2",     "btn1:1.l",   "yellow", [] ],
+    [ "btn1:2.l",  "uno:GND.2",  "black",  [] ]
+  ]
+}

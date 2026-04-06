@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "author": "Walidur Rahman",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno",         "id": "uno",    "top": 0,   "left": 0,   "attrs": {} },
+    { "type": "wokwi-slide-potentiometer", "id": "light1", "top": -80, "left": 200, "attrs": {} },
+    { "type": "wokwi-led",                 "id": "led1",   "top": -80, "left": 370, "attrs": { "color": "yellow" } },
+    { "type": "wokwi-resistor",            "id": "r1",     "top": -80, "left": 310, "attrs": { "value": "220" } }
+  ],
+  "connections": [
+    [ "uno:5V",     "light1:VCC", "red",    [] ],
+    [ "light1:SIG", "uno:A0",     "green",  [] ],
+    [ "light1:GND", "uno:GND.1",  "black",  [] ],
+    [ "uno:8",      "r1:1",       "green",  [] ],
+    [ "r1:2",       "led1:A",     "yellow", [] ],
+    [ "led1:C",     "uno:GND.2",  "black",  [] ]
+  ]
+}

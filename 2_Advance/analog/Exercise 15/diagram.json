@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "author": "Walidur Rahman",
+  "editor": "wokwi",
+  "serialMonitor": {
+    "display": "always",
+    "newline": "lf"
+  },
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno",    "top": 0,   "left": 0,   "attrs": {} },
+    { "type": "wokwi-servo",       "id": "servo1", "top": -80, "left": 200, "attrs": {} }
+  ],
+  "connections": [
+    [ "uno:5V",  "servo1:V+",  "red",    [] ],
+    [ "uno:GND", "servo1:GND", "black",  [] ],
+    [ "uno:5",   "servo1:PWM", "yellow", [] ]
+  ]
+}

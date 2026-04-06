@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "author": "Walidur Rahman",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno",  "id": "uno",    "top": 0,    "left": 0,   "attrs": {} },
+    { "type": "wokwi-dht22",        "id": "dht1",   "top": -120, "left": 180,
+      "attrs": { "temperature": "24", "humidity": "50" } },
+    { "type": "wokwi-servo",        "id": "servo1", "top": -120, "left": 340, "attrs": {} },
+    { "type": "wokwi-relay-module", "id": "relay1", "top": 100,  "left": 180, "attrs": {} },
+    { "type": "wokwi-led",          "id": "led1",   "top": 100,  "left": 380,
+      "attrs": { "color": "red" } },
+    { "type": "wokwi-resistor",     "id": "r1",     "top": 100,  "left": 320,
+      "attrs": { "value": "220" } },
+    { "type": "wokwi-pushbutton",   "id": "btn1",   "top": -120, "left": 500,
+      "attrs": { "color": "red" } }
+  ],
+  "connections": [
+    [ "uno:5V",      "dht1:VCC",    "red",    [] ],
+    [ "uno:GND",     "dht1:GND",   "black",  [] ],
+    [ "uno:2",       "dht1:SDA",   "green",  [] ],
+    [ "uno:5V",      "servo1:V+",  "red",    [] ],
+    [ "uno:GND",     "servo1:GND", "black",  [] ],
+    [ "uno:5",       "servo1:PWM", "yellow", [] ],
+    [ "uno:5V",      "relay1:VCC", "red",    [] ],
+    [ "uno:GND",     "relay1:GND", "black",  [] ],
+    [ "uno:7",       "relay1:IN",  "blue",   [] ],
+    [ "relay1:NO",   "r1:1",       "orange", [] ],
+    [ "r1:2",        "led1:A",     "orange", [] ],
+    [ "led1:C",      "uno:GND",    "black",  [] ],
+    [ "relay1:COM",  "uno:5V",     "red",    [] ],
+    [ "btn1:1.l",    "uno:3",      "purple", [] ],
+    [ "btn1:2.l",    "uno:5V",     "red",    [] ]
+  ]
+}

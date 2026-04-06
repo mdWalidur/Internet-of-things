@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "author": "Walidur Rahman",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno", "top": 87, "left": -39, "attrs": {} },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn",
+      "top": -61,
+      "left": 134.4,
+      "attrs": { "color": "blue" }
+    },
+    { "type": "wokwi-led", "id": "led", "top": -60, "left": 220, "attrs": { "color": "red" } },
+    { "type": "wokwi-resistor", "id": "r1", "top": 20, "left": 205, "attrs": { "value": "220" } },
+    { "type": "wokwi-buzzer", "id": "buzz", "top": -60, "left": 310, "attrs": {} }
+  ],
+  "connections": [
+    [ "uno:TX", "$serialMonitor:RX", "", [] ],
+    [ "uno:RX", "$serialMonitor:TX", "", [] ],
+    [ "uno:2", "btn:1.l", "green", [] ],
+    [ "btn:2.l", "uno:GND.1", "black", [] ],
+    [ "uno:3", "r1:1", "green", [] ],
+    [ "r1:2", "led:A", "green", [] ],
+    [ "led:C", "uno:GND.2", "black", [] ],
+    [ "uno:4", "buzz:1", "blue", [] ],
+    [ "buzz:2", "uno:GND.3", "black", [] ]
+  ],
+  "dependencies": {}
+}

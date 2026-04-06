@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "author": "Walidur Rahman",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno", "id": "uno",    "top": 0,    "left": 0,   "attrs": {} },
+    { "type": "wokwi-dht22",       "id": "dht1",   "top": -80,  "left": 200,
+      "attrs": { "temperature": "24", "humidity": "50" } },
+    { "type": "wokwi-servo",       "id": "servo1", "top": -80,  "left": 350, "attrs": {} }
+  ],
+  "connections": [
+    [ "uno:5V",   "dht1:VCC",   "red",    [] ],
+    [ "uno:GND",  "dht1:GND",   "black",  [] ],
+    [ "uno:2",    "dht1:SDA",   "green",  [] ],
+    [ "uno:5V",   "servo1:V+",  "red",    [] ],
+    [ "uno:GND",  "servo1:GND", "black",  [] ],
+    [ "uno:5",    "servo1:PWM", "yellow", [] ]
+  ]
+}

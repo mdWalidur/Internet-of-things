@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "author": "Walidur Rahman",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "wokwi-arduino-uno",   "id": "uno",  "top": 0,   "left": 0,   "attrs": {} },
+    { "type": "wokwi-potentiometer", "id": "pot1", "top": -80, "left": 200, "attrs": {} },
+    { "type": "wokwi-buzzer",        "id": "buz1", "top": -80, "left": 350, "attrs": {} }
+  ],
+  "connections": [
+    [ "uno:5V",   "pot1:VCC",  "red",    [] ],
+    [ "pot1:SIG", "uno:A0",    "yellow", [] ],
+    [ "pot1:GND", "uno:GND.1", "black",  [] ],
+    [ "uno:8",    "buz1:1",    "green",  [] ],
+    [ "buz1:2",   "uno:GND.2", "black",  [] ]
+  ]
+}
