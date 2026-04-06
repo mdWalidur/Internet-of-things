@@ -33,8 +33,7 @@ This repository contains comprehensive solutions for an IoT course curriculum:
 
 Get started with fundamental IoT concepts and circuit design.
 
-<details>
-<summary><b>🔷 Hello World</b> — Introduction to Arduino</summary>
+### 🔷 Hello World — Introduction to Arduino
 
 | Exercise | Link |
 |----------|------|
@@ -42,10 +41,9 @@ Get started with fundamental IoT concepts and circuit design.
 | ex 2 | [🚀 Open in Wokwi](https://wokwi.com/projects/460504251990994945) |
 | ex 3 | [🚀 Open in Wokwi](https://wokwi.com/projects/460504251990994945) |
 
-</details>
+---
 
-<details>
-<summary><b>💡 Diode</b> — LED control and basics</summary>
+### 💡 Diode — LED control and basics
 
 **Main Example:** `1_2_Diode.ino`
 
@@ -55,10 +53,9 @@ Get started with fundamental IoT concepts and circuit design.
 | ex 2 | [🚀 Open in Wokwi](https://wokwi.com/projects/460504251990994945) |
 | ex 3 | [🚀 Open in Wokwi](https://wokwi.com/projects/460505546354316289) |
 
-</details>
+---
 
-<details>
-<summary><b>🌀 Diode Fade</b> — PWM and brightness control</summary>
+### 🌀 Diode Fade — PWM and brightness control
 
 **Main Example:** `1_3_DiodeFade.ino`
 
@@ -67,18 +64,20 @@ Get started with fundamental IoT concepts and circuit design.
 | ex 1 | [🚀 Open in Wokwi](https://wokwi.com/projects/460506066697594881) |
 | ex 2 | [🚀 Open in Wokwi](https://wokwi.com/projects/460506066697594881) |
 
-</details>
+---
 
-<details>
-<summary><b>🔘 Button</b> — Digital input and interrupts</summary>
+### 🔘 Button — Digital input and interrupts
 
 **Main Example:** `1_4_Button.ino`
 
 | Exercise | Link |
 |----------|------|
-| ex 1-6 | [🚀 Open in Wokwi](https://wokwi.com/projects/460506630306178049) |
-
-</details>
+| ex 1 | [🚀 Open in Wokwi](https://wokwi.com/projects/460506630306178049) |
+| ex 2 | [🚀 Open in Wokwi](https://wokwi.com/projects/460506630306178049) |
+| ex 3 | [🚀 Open in Wokwi](https://wokwi.com/projects/460506630306178049) |
+| ex 4 | [🚀 Open in Wokwi](https://wokwi.com/projects/460506630306178049) |
+| ex 5 | [🚀 Open in Wokwi](https://wokwi.com/projects/460506630306178049) |
+| ex 6 | [🚀 Open in Wokwi](https://wokwi.com/projects/460506630306178049) |
 
 ---
 
@@ -86,8 +85,7 @@ Get started with fundamental IoT concepts and circuit design.
 
 Master complex IoT patterns and real-world applications.
 
-<details>
-<summary><b>📊 Analog Sensors</b> — 15 exercises</summary>
+### 📊 Analog Sensors — 15 exercises
 
 | Ex | Link | Ex | Link | Ex | Link |
 |:--:|:--:|:--:|:--:|:--:|:--:|
@@ -97,10 +95,9 @@ Master complex IoT patterns and real-world applications.
 | [4](https://wokwi.com/projects/460492551199952897) | 🎯 | [9](https://wokwi.com/projects/460492551199952897) | 🎯 | [14](https://wokwi.com/projects/460492551199952897) | 🎯 |
 | [5](https://wokwi.com/projects/460492551199952897) | 🎯 | [10](https://wokwi.com/projects/460492551199952897) | 🎯 | [15](https://wokwi.com/projects/460492551199952897) | 🎯 |
 
-</details>
+---
 
-<details>
-<summary><b>⚙️ More Techniques</b> — Advanced patterns</summary>
+### ⚙️ More Techniques — Advanced patterns
 
 | Exercise | Link |
 |----------|------|
@@ -108,10 +105,9 @@ Master complex IoT patterns and real-world applications.
 | [2](https://wokwi.com/projects/460492551199952897) | 🚀 Advanced Technique 2 |
 | [3](https://wokwi.com/projects/460492551199952897) | 🚀 Advanced Technique 3 |
 
-</details>
+---
 
-<details>
-<summary><b>❄️ Air Cooler Project</b> — Real-world application</summary>
+### ❄️ Air Cooler Project — Real-world application
 
 | Module | Link |
 |--------|------|
@@ -121,14 +117,11 @@ Master complex IoT patterns and real-world applications.
 | [EX 4](https://wokwi.com/projects/460492551199952897) | 🚀 Auto Control |
 | [EX 5](https://wokwi.com/projects/460492551199952897) | 🚀 Full Integration |
 
-</details>
+---
 
-<details>
-<summary><b>⭐ Optional</b> — Bonus content</summary>
+### ⭐ Optional — Bonus content
 
 - 📖 **2_4_TransmitData_OPTIONAL.md** — Deep dive into communication protocols (I2C bit sequences)
-
-</details>
 
 ---
 
@@ -136,8 +129,7 @@ Master complex IoT patterns and real-world applications.
 
 Implement IoT data transmission and integration.
 
-<details>
-<summary><b>🔌 Communication Basics</b> — Serial & protocols</summary>
+### 🔌 Communication Basics — Serial & protocols
 
 | Module | Link |
 |--------|------|
@@ -146,16 +138,13 @@ Implement IoT data transmission and integration.
 | Combined | 📝 Multi-directional communication |
 | GUI | 🖥️ Interface examples |
 
-</details>
+---
 
-<details>
-<summary><b>🗄️ Database Integration</b> — Data persistence</summary>
+### 🗄️ Database Integration — Data persistence
 
 | Topic | File |
 |-------|------|
 | Implementation Guide | [📖 3_2_AddingDatabase.md](3_Communication/Adddatabase/3_2_AddingDatabase.md) |
-
-</details>
 
 ---
 
